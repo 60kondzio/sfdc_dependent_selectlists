@@ -1,0 +1,49 @@
+<apex:page controller="MyController">
+    <apex:form >
+
+    <apex:pageBlock title="My Content">
+
+        <apex:pageBlockTable value="{!items}" var="item" id="itemsTable">
+            <apex:column headerValue="Car">
+                <apex:selectList value="{!item.selectedCarId}" size="1" id="carSelect" >
+                    <apex:selectOptions value="{!item.cars}"/>
+                    <apex:actionSupport action="{!updateRow}" event="onchange" reRender="itemsTable" status="addnew" />
+                </apex:selectList>
+            </apex:column>
+            <apex:column headerValue="Brand">
+                <apex:selectList value="{!item.selectedBrandId}" size="1" id="brandSelect">
+                    <apex:selectOptions value="{!item.brands}"/>
+                    <apex:actionSupport event="onchange" reRender="typeSelect" status="addnew"/>
+                </apex:selectList>
+            </apex:column>
+
+            <apex:column headerValue="Type">
+                <apex:selectList value="{!item.selectedTypeId}" size="1" id="typeSelect">
+                    <apex:selectOptions value="{!item.types}"/>
+                    <apex:actionSupport event="onchange" reRender="yearSelect" status="addnew"/>
+                </apex:selectList>
+            </apex:column>
+
+            <apex:column headerValue="Year">
+                <apex:selectList value="{!item.selectedYeardId}" size="1" id="yearSelect">
+                    <apex:selectOptions value="{!item.years}"/>
+                </apex:selectList>
+            </apex:column>
+        </apex:pageBlockTable>
+        <apex:actionStatus id="addnew">
+            <apex:facet name="stop">
+                <apex:outputPanel >
+                     <apex:commandButton value="Add new" action="{!addNew}" reRender="itemsTable,removeBtn"/>
+                     <apex:commandButton value="Remove" action="{!deleteRow}" reRender="itemsTable,removeBtn" id="removeBtn"/>
+                </apex:outputPanel>
+            </apex:facet>
+            <apex:facet name="start">
+                <apex:outputPanel >
+                    <apex:commandButton value="Add new" disabled="true"/>
+                    <apex:commandButton value="Remove" disabled="true"/>
+                </apex:outputPanel>
+            </apex:facet>
+        </apex:actionStatus>
+    </apex:pageBlock>
+    </apex:form>
+</apex:page>
